@@ -6,7 +6,7 @@ from app.models.inventory_transaction import InventoryTransaction
 def create_inventory(db: Session, product_id: int, quantity: int):
     inventory = Inventory(product_id=product_id, quantity=quantity)
     db.add(inventory)
-    db.refresh(inventory)
+    # db.refresh(inventory)
     return inventory
 
 

@@ -14,4 +14,15 @@ class Product(Base):
     selling_price = Column(Float, nullable=False)
     supplier = Column(String, nullable=True)
 
-    inventory = relationship("Inventory", back_populates="product", uselist=False)
+    transactions = relationship(
+        "InventoryTransaction",
+        back_populates="product",
+        cascade="all, delete-orphan"
+    )
+
+    inventory = relationship(
+        "Inventory",
+        back_populates="product",
+        uselist=False,
+        cascade="all, delete-orphan"
+    )
