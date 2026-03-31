@@ -2,10 +2,7 @@ from pydantic import BaseModel, EmailStr
 from enum import Enum
 
 
-class UserRole(str, Enum):
-    owner = "owner"
-    cashier = "cashier"
-    staff = "staff"
+from app.models.user import UserRole
 
 
 class UserCreate(BaseModel):
@@ -23,3 +20,8 @@ class UserResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
