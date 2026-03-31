@@ -1,10 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.database import get_db
+from typing import List
 from app.models.user import User
-from app.schemas.product import ProductCreate, ProductResponse
+from app.schemas.product import ProductCreate, ProductResponse, StockReportResponse
 from app.services.product_service import create_product, get_products
 from app.core.dependencies import require_roles
+from app.services.inventory_service import get_stock_report
 
 router = APIRouter()
 
@@ -28,3 +30,11 @@ def list_products(
 ):
     
     return get_products(db)
+
+
+@router.get("/report", response_model=List[StockReportResponse])
+def view_stock_report(
+    db: Session = Depends(get_db),
+    user = Depends(require_roles("owner"))
+):
+    return get_stock_report(db)

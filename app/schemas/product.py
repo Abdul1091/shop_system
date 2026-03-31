@@ -21,3 +21,14 @@ class ProductResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class StockReportResponse(BaseModel):
+    product_name: str
+    sku: str
+    initial_stock: int
+    quantity_sold: int
+    current_stock: int
+
+    class Config:
+        from_attributes = True
