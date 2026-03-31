@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Float, ForeignKey, DateTime, String
 from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, UTC
 from app.database import Base
 
 
@@ -11,6 +11,6 @@ class Sale(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     total_amount = Column(Float)
     payment_method = Column(String)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(UTC))
 
     items = relationship("SaleItem", back_populates="sale")
