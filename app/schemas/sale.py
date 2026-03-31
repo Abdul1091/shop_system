@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import List
 from datetime import datetime
 
@@ -18,8 +18,7 @@ class SaleItemRead(BaseModel):
     quantity: int
     price: float
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class SaleResponse(BaseModel):
@@ -29,8 +28,7 @@ class SaleResponse(BaseModel):
     created_at: datetime
     items: List[SaleItemRead]
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class DetailedSaleReport(BaseModel):
@@ -41,5 +39,4 @@ class DetailedSaleReport(BaseModel):
     total_price: float
     timestamp: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

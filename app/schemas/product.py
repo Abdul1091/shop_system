@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 
 class ProductCreate(BaseModel):
@@ -19,8 +19,7 @@ class ProductResponse(BaseModel):
     category: str | None
     supplier: str | None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class StockReportResponse(BaseModel):
@@ -30,5 +29,4 @@ class StockReportResponse(BaseModel):
     quantity_sold: int
     current_stock: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
