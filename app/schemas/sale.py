@@ -31,3 +31,15 @@ class SaleResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class DetailedSaleReport(BaseModel):
+    cashier_name: str
+    product_name: str
+    quantity: int
+    price_per_unit: float
+    total_price: float
+    timestamp: datetime
+
+    class Config:
+        from_attributes = True

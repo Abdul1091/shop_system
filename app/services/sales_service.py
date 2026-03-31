@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
+from app.models.user import User
 from app.models.sale import Sale
 from app.models.sale_item import SaleItem
 from app.models.product import Product
@@ -68,3 +69,23 @@ def create_sale(db: Session, user_id: int, sale_data: SaleCreate) -> Sale:
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=400, detail=str(e))
+    
+
+def get_detailed_sales_report(db: Session):
+    # We join SaleItem -> Sale -> User and SaleItem -> Product
+    results = (
+        db.query(
+            User.name.label("cashier_name"),
+            Product.name.label("product_name"),
+            SaleItem.quantity,
+            SaleItem.price.label("price_per_unit"),
+            (SaleItem.quantity * SaleItem.price).label("total_price"),
+            Sale.created_at.label("timestamp")
+        )
+        .join(Sale, SaleItem.sale_id == Sale.id)
+        .join(User, Sale.user_id == User.id)
+        .join(Product, SaleItem.product_id == Product.id)
+        .order_by(Sale.created_at.desc())
+        .all()
+    )
+    return results
